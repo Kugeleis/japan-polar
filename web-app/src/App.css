@@ -31,8 +31,31 @@ header.app-header.container-fluid {
 
 .header-content {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.title-group {
+  display: flex;
   align-items: baseline;
   gap: 1.5rem;
+}
+
+.theme-toggle {
+  margin-bottom: 0;
+  padding: 0.4rem 0.8rem;
+  width: auto;
+  font-size: 1.2rem;
+  line-height: 1;
+  background-color: var(--pico-form-element-background-color);
+  border: 1px solid var(--pico-muted-border-color);
+  color: var(--pico-color);
+}
+
+.theme-toggle:hover {
+  background-color: var(--pico-form-element-active-background-color);
+  border-color: var(--pico-form-element-active-border-color);
 }
 
 .header-content h1 {
@@ -107,13 +130,27 @@ header.app-header.container-fluid {
 .step-card {
   margin-bottom: 1.5rem;
   cursor: pointer;
-  transition: border-color 0.2s;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
   padding: 1.5rem;
+  background-color: var(--pico-background-color);
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius);
+  box-shadow: var(--pico-card-box-shadow);
+}
+
+.step-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .step-card.active {
   border-color: var(--pico-primary);
-  box-shadow: var(--pico-card-box-shadow);
+  border-width: 2px;
+  box-shadow: 0 0 0 1px var(--pico-primary);
+}
+
+[data-theme="dark"] .step-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .step-header {

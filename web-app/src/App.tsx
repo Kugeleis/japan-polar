@@ -7,7 +7,14 @@ import './App.css';
 function App() {
   const { data, loading, error } = useTripData();
   const [activeStepId, setActiveStepId] = useState<number | null>(null);
+  const [theme, setTheme] = useState<'light' | 'dark'>(
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  );
   const timelineContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     if (activeStepId) {
@@ -24,14 +31,27 @@ function App() {
 
   const { trip, user, manifest } = data;
 
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
+
   return (
     <div className="app-container">
       <header className="app-header container-fluid">
         <div className="header-content">
-          <h1 className="trip-title">Zwei Monate Japan</h1>
-          <span className="trip-subtitle">
-            By {user.first_name} {user.last_name} • mehr unter <a href="https://bike-in-japan.de" target="_blank" rel="noopener noreferrer">bike-in-japan.de</a>
-          </span>
+          <div className="title-group">
+            <h1 className="trip-title">Zwei Monate Japan</h1>
+            <span className="trip-subtitle">
+              By {user.first_name} {user.last_name} • mehr unter <a href="https://bike-in-japan.de" target="_blank" rel="noopener noreferrer">bike-in-japan.de</a>
+            </span>
+          </div>
+          <button 
+            className="secondary theme-toggle" 
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
         </div>
       </header>
       <main className="app-main container-fluid">
