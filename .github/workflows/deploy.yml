@@ -28,6 +28,13 @@ jobs:
           cd web-app
           npm install
 
+      - name: Copy Data to Public 📂
+        run: |
+          mkdir -p web-app/public/trip
+          mkdir -p web-app/public/user
+          cp -r trip/* web-app/public/trip/
+          cp -r user/* web-app/public/user/
+
       - name: Generate Media Manifest 📑
         run: |
           cd web-app
