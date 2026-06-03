@@ -13,6 +13,12 @@ function App() {
   const timelineContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (data?.trip.name) {
+      document.title = data.trip.name;
+    }
+  }, [data]);
+
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
