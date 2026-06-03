@@ -29,8 +29,8 @@ trips.forEach(tripDir => {
             const videosDir = path.join(stepPath, 'videos');
 
             manifest[stepId] = {
-                photos: getFiles(photosDir).map(f => `/trip/${tripDir}/${stepDir}/photos/${f}`),
-                videos: getFiles(videosDir).map(f => `/trip/${tripDir}/${stepDir}/videos/${f}`)
+                photos: getFiles(photosDir).map(f => `./trip/${tripDir}/${stepDir}/photos/${f}`),
+                videos: getFiles(videosDir).map(f => `./trip/${tripDir}/${stepDir}/videos/${f}`)
             };
         }
     });

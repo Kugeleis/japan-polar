@@ -6,9 +6,9 @@ export const fetchData = async () => {
   const tripId = 'japan_24685604';
   
   const [tripResponse, userResponse, manifestResponse] = await Promise.all([
-    fetch(`/trip/${tripId}/trip.json`),
-    fetch('/user/user.json'),
-    fetch('/media-manifest.json')
+    fetch(`./trip/${tripId}/trip.json`),
+    fetch('./user/user.json'),
+    fetch('./media-manifest.json')
   ]);
 
   if (!tripResponse.ok || !userResponse.ok || !manifestResponse.ok) {
