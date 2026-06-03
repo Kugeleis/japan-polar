@@ -17,23 +17,24 @@ export const StepDetail = ({ step, media, isActive, onClick }: StepDetailProps) 
   });
 
   return (
-    <div 
+    <article 
       className={`step-card ${isActive ? 'active' : ''}`} 
       onClick={onClick}
       id={`step-${step.id}`}
     >
-      <div className="step-header">
+      <header className="step-header">
         <span className="step-date">{date}</span>
+        {' '}
         {step.weather_temperature && (
           <span className="step-weather">
-            {step.weather_temperature}°C
+            • {step.weather_temperature}°C
           </span>
         )}
-      </div>
+      </header>
       <h3>{step.display_name}</h3>
       <p className="step-description">{step.description}</p>
       
       <MediaGallery photos={media.photos} videos={media.videos} />
-    </div>
+    </article>
   );
 };

@@ -1,84 +1,132 @@
-#root {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+:root {
+  --pico-font-size: 16px;
 }
 
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  width: 100%;
+}
+
+/* Override Pico for the split layout */
 .app-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100vw;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  width: 100%;
 }
 
-.app-header {
-  background: #fff;
+header.app-header.container-fluid {
   padding: 1rem 2rem;
-  border-bottom: 1px solid #eee;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  max-width: 100%;
 }
 
-.app-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
+.header-content {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
 }
 
-.app-header p {
-  margin: 0.2rem 0 0;
-  color: #666;
-  font-size: 0.9rem;
+.header-content h1 {
+  margin-bottom: 0;
+  font-size: 1.8rem;
 }
 
-.app-main {
+.app-main.container-fluid {
   display: flex;
   flex: 1;
   overflow: hidden;
+  max-width: 100%;
+  padding: 0;
 }
 
 .map-sidebar {
   flex: 1;
-  height: 100%;
+  position: relative;
+}
+
+/* Protect Leaflet from Pico.css global styles */
+.leaflet-container img {
+  max-width: none !important;
+  display: inline !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.leaflet-marker-icon {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.leaflet-container a {
+  text-decoration: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: white !important;
+  color: black !important;
+  text-decoration: none !important;
+}
+
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background: #f4f4f4 !important;
+}
+
+.leaflet-container .leaflet-control-attribution {
+  font-size: 11px;
 }
 
 .timeline-container {
   width: 450px;
   overflow-y: auto;
-  background: #f9f9f9;
-  border-left: 1px solid #eee;
+  padding: 1rem;
+  background-color: var(--pico-card-background-color);
+  border-left: 1px solid var(--pico-muted-border-color);
 }
 
 .step-card {
-  background: #fff;
-  margin: 1rem;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 2px solid transparent;
-}
-
-.step-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: border-color 0.2s;
+  padding: 1.5rem;
 }
 
 .step-card.active {
-  border-color: #007bff;
+  border-color: var(--pico-primary);
+  box-shadow: var(--pico-card-box-shadow);
 }
 
-.step-card h3 {
-  margin-top: 0;
-  color: #333;
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--pico-muted-color);
+  margin-bottom: 0.5rem;
 }
 
-.step-card p {
-  color: #555;
-  line-height: 1.6;
+.step-description {
   white-space: pre-wrap;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 900px) {
@@ -87,10 +135,10 @@
   }
   .timeline-container {
     width: 100%;
-    flex: 1;
+    height: 50vh;
   }
   .map-sidebar {
-    height: 300px;
+    height: 40vh;
     flex: none;
   }
 }

@@ -26,13 +26,15 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        <div className="user-info">
-          <h1>{trip.name}</h1>
-          <p>By {user.first_name} {user.last_name} • {trip.summary}</p>
+      <header className="app-header container-fluid">
+        <div className="header-content">
+          <h1 className="trip-title">Zwei Monate Japan</h1>
+          <span className="trip-subtitle">
+            By {user.first_name} {user.last_name} • mehr unter <a href="https://bike-in-japan.de" target="_blank" rel="noopener noreferrer">bike-in-japan.de</a>
+          </span>
         </div>
       </header>
-      <main className="app-main">
+      <main className="app-main container-fluid">
         <div className="map-sidebar">
           <MapComponent 
             steps={trip.all_steps} 
