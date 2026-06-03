@@ -1,9 +1,9 @@
-import type { Step } from '../../types/polarsteps';
+import type { Step, Photo } from '../../types/polarsteps';
 import { MediaGallery } from '../MediaGallery/MediaGallery';
 
 interface StepDetailProps {
   step: Step;
-  media: { photos: string[]; videos: string[] };
+  media: { photos: Photo[]; videos: string[] };
   isActive: boolean;
   onClick: () => void;
 }

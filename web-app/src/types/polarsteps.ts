@@ -39,9 +39,14 @@ export interface Trip {
   cover_photo_path: string;
 }
 
+export interface Photo {
+  original: string;
+  thumb: string;
+}
+
 export interface MediaManifest {
   [stepId: string]: {
-    photos: string[];
+    photos: Photo[];
     videos: string[];
   };
 }

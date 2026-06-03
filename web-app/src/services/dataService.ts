@@ -23,7 +23,10 @@ export const fetchData = async () => {
 
   // Normalize manifest paths with baseUrl
   Object.keys(manifest).forEach(stepId => {
-    manifest[stepId].photos = manifest[stepId].photos.map(p => `${baseUrl}${p.replace(/^\.\//, '')}`);
+    manifest[stepId].photos = manifest[stepId].photos.map(p => ({
+      original: `${baseUrl}${p.original.replace(/^\.\//, '')}`,
+      thumb: `${baseUrl}${p.thumb.replace(/^\.\//, '')}`
+    }));
     manifest[stepId].videos = manifest[stepId].videos.map(v => `${baseUrl}${v.replace(/^\.\//, '')}`);
   });
 

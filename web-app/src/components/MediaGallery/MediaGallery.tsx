@@ -1,40 +1,51 @@
 import { useState } from 'react';
 import './MediaGallery.css';
 import { Lightbox } from './Lightbox';
+import type { Photo } from '../../types/polarsteps';
 
 interface MediaGalleryProps {
-  photos: string[];
+  photos: Photo[];
   videos: string[];
 }
 
 export const MediaGallery = ({ photos, videos }: MediaGalleryProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const allMedia = [...videos, ...photos];
+  
+  // Create unified items for the gallery thumbnails
+  const thumbItems = [
+    ...videos.map(v => ({ type: 'video' as const, url: v })),
+    ...photos.map(p => ({ type: 'photo' as const, url: p.thumb }))
+  ];
 
-  if (allMedia.length === 0) return null;
+  // Create unified items for the lightbox (full size)
+  const fullItems = [
+    ...videos,
+    ...photos.map(p => p.original)
+  ];
+
+  if (thumbItems.length === 0) return null;
 
   const handlePrev = () => {
-    setSelectedIndex(prev => (prev === null || prev === 0 ? allMedia.length - 1 : prev - 1));
+    setSelectedIndex(prev => (prev === null || prev === 0 ? fullItems.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setSelectedIndex(prev => (prev === null || prev === allMedia.length - 1 ? 0 : prev + 1));
+    setSelectedIndex(prev => (prev === null || prev === fullItems.length - 1 ? 0 : prev + 1));
   };
 
   return (
     <div className="media-gallery">
-      {allMedia.map((item, index) => {
-        const isVideo = item.toLowerCase().endsWith('.mp4');
+      {thumbItems.map((item, index) => {
         return (
           <div 
             key={index} 
-            className={`media-item ${isVideo ? 'video' : 'photo'}`}
+            className={`media-item ${item.type}`}
             onClick={(e) => { e.stopPropagation(); setSelectedIndex(index); }}
           >
-            {isVideo ? (
-              <video src={item} muted />
+            {item.type === 'video' ? (
+              <video src={item.url} muted />
             ) : (
-              <img src={item} alt="" loading="lazy" />
+              <img src={item.url} alt="" loading="lazy" />
             )}
           </div>
         );
@@ -42,7 +53,7 @@ export const MediaGallery = ({ photos, videos }: MediaGalleryProps) => {
 
       {selectedIndex !== null && (
         <Lightbox
-          items={allMedia}
+          items={fullItems}
           currentIndex={selectedIndex}
           onClose={() => setSelectedIndex(null)}
           onPrev={handlePrev}
