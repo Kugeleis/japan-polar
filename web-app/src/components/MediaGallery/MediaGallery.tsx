@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import './MediaGallery.css';
+import { Lightbox } from './Lightbox';
 
 interface MediaGalleryProps {
   photos: string[];
@@ -6,20 +8,47 @@ interface MediaGalleryProps {
 }
 
 export const MediaGallery = ({ photos, videos }: MediaGalleryProps) => {
-  if (photos.length === 0 && videos.length === 0) return null;
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const allMedia = [...videos, ...photos];
+
+  if (allMedia.length === 0) return null;
+
+  const handlePrev = () => {
+    setSelectedIndex(prev => (prev === null || prev === 0 ? allMedia.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setSelectedIndex(prev => (prev === null || prev === allMedia.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <div className="media-gallery">
-      {videos.map((video, index) => (
-        <div key={`video-${index}`} className="media-item video">
-          <video src={video} controls />
-        </div>
-      ))}
-      {photos.map((photo, index) => (
-        <div key={`photo-${index}`} className="media-item photo">
-          <img src={photo} alt="" loading="lazy" />
-        </div>
-      ))}
+      {allMedia.map((item, index) => {
+        const isVideo = item.toLowerCase().endsWith('.mp4');
+        return (
+          <div 
+            key={index} 
+            className={`media-item ${isVideo ? 'video' : 'photo'}`}
+            onClick={(e) => { e.stopPropagation(); setSelectedIndex(index); }}
+          >
+            {isVideo ? (
+              <video src={item} muted />
+            ) : (
+              <img src={item} alt="" loading="lazy" />
+            )}
+          </div>
+        );
+      })}
+
+      {selectedIndex !== null && (
+        <Lightbox
+          items={allMedia}
+          currentIndex={selectedIndex}
+          onClose={() => setSelectedIndex(null)}
+          onPrev={handlePrev}
+          onNext={handleNext}
+        />
+      )}
     </div>
   );
 };
