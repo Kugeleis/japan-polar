@@ -5,10 +5,12 @@ export const fetchData = async () => {
   // For now, we hardcode the paths based on the provided extract.
   const tripId = 'japan_24685604';
   
+  const baseUrl = import.meta.env.BASE_URL;
+  
   const [tripResponse, userResponse, manifestResponse] = await Promise.all([
-    fetch(`./trip/${tripId}/trip.json`),
-    fetch('./user/user.json'),
-    fetch('./media-manifest.json')
+    fetch(`${baseUrl}trip/${tripId}/trip.json`),
+    fetch(`${baseUrl}user/user.json`),
+    fetch(`${baseUrl}media-manifest.json`)
   ]);
 
   if (!tripResponse.ok || !userResponse.ok || !manifestResponse.ok) {
@@ -18,6 +20,12 @@ export const fetchData = async () => {
   const trip: Trip = await tripResponse.json();
   const user: User = await userResponse.json();
   const manifest: MediaManifest = await manifestResponse.json();
+
+  // Normalize manifest paths with baseUrl
+  Object.keys(manifest).forEach(stepId => {
+    manifest[stepId].photos = manifest[stepId].photos.map(p => `${baseUrl}${p.replace(/^\.\//, '')}`);
+    manifest[stepId].videos = manifest[stepId].videos.map(v => `${baseUrl}${v.replace(/^\.\//, '')}`);
+  });
 
   return { trip, user, manifest };
 };
