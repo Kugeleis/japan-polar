@@ -36,6 +36,9 @@ export const MediaGallery = ({ photos, videos }: MediaGalleryProps) => {
   return (
     <div className="media-gallery">
       {thumbItems.map((item, index) => {
+        if (item.type === 'photo') {
+          console.log(`Rendering photo: ${item.url}`);
+        }
         return (
           <div 
             key={index} 
@@ -45,7 +48,7 @@ export const MediaGallery = ({ photos, videos }: MediaGalleryProps) => {
             {item.type === 'video' ? (
               <video src={item.url} muted />
             ) : (
-              <img src={item.url} alt="" loading="lazy" />
+              <img src={item.url} alt="Travel photo" title={item.url} />
             )}
           </div>
         );
